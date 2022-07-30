@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    color: black;
+}
+
+/* quicksand-regular - latin */
+@font-face {
+    font-family: 'Quicksand';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/fonts/quicksand/quicksand-v29-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('./assets/fonts/quicksand/quicksand-v29-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('./assets/fonts/quicksand/quicksand-v29-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('./assets/fonts/quicksand/quicksand-v29-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('./assets/fonts/quicksand/quicksand-v29-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('./assets/fonts/quicksand/quicksand-v29-latin-regular.svg#Quicksand') format('svg'); /* Legacy iOS */
+  }
+  /* heebo-regular - latin */
+@font-face {
+    font-family: 'Heebo';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/fonts/heebo/heebo-v20-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('./assets/fonts/heebo/heebo-v20-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('./assets/fonts/heebo/heebo-v20-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('./assets/fonts/heebo/heebo-v20-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('./assets/fonts/heebo/heebo-v20-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('./assets/fonts/heebo/heebo-v20-latin-regular.svg#Heebo') format('svg'); /* Legacy iOS */
+  }
+  /* urbanist-regular - latin */
+@font-face {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/fonts/urbanist/urbanist-v8-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('./assets/fonts/urbanist/urbanist-v8-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('./assets/fonts/urbanist/urbanist-v8-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('./assets/fonts/urbanist/urbanist-v8-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('./assets/fonts/urbanist/urbanist-v8-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('./assets/fonts/urbanist/urbanist-v8-latin-regular.svg#Urbanist') format('svg'); /* Legacy iOS */
+  }
