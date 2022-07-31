@@ -1,17 +1,59 @@
-import { FC ,useState,ChangeEvent,FormEvent} from "react";
+import { FC ,useState,ChangeEvent,FormEvent, useEffect,useMemo} from "react";
 import { ProductWrapper } from "../assets/wrappers/ProductWrapper";
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import { Chart } from "../components/Chart";
 import { productData } from '../Data'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import { useSelector ,useDispatch} from "react-redux";
+import { productState } from "../redux/productRedux";
+import { userRequest } from "../Requests";
+import { updateProduct } from "../redux/apiCalls";
 
 export const Product:FC=():JSX.Element=>{
-    const [inputs,setInputs]=useState({
+    const Month= useMemo(():Array<string>=>['Jan','Feb','March','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],[])
+  const dispatch=useDispatch();
+    const {id}=useParams();
+    const {product} = useSelector((state:{product:productState}) => state.product);
+    const [chart,setChart]=useState([    {
+        name: Month[new Date().getMonth()-1<0?12:new Date().getMonth()-1],
+        sale: 0,
+        },
+      {
+        name: Month[new Date().getMonth()],
+        sale: 0,
+        },
+      {
+        name: Month[new Date().getMonth()+1>12?1:new Date().getMonth()+1],
+        sale: 0,
+        }])
+    const [data,setData]=useState({
         name:'',
-        instock:true,
-        active:true,
-        file:''
+        sales:0,
+        active:false,
+        inStock:false,
+        id:'',
+        image:''
     })
+    const [inputs,setInputs]=useState({
+        title:'',
+        description:'',
+        price:'',
+        file:{},
+        url:'',
+        inStock:true
+    })
+    useEffect(()=>{
+      const x=product.find(p=>p._id==id);
+      setData({
+        name:x.title,
+        sales:x.price,
+        active:x.inStock,
+        inStock:x.inStock,
+        id:x._id,
+        image:x.image.data.data
+    })
+        
+    },[product])
     
     const handleChange=(e: ChangeEvent<HTMLInputElement>)=>{
         const id=e.target.id;
@@ -27,7 +69,8 @@ export const Product:FC=():JSX.Element=>{
                const url= URL.createObjectURL(e.target.files[0])
                   setInputs({
                     ...inputs,
-                    file:url
+                    url:url,
+                    file:e.target.files[0]
                 })
         }
     }
@@ -44,32 +87,64 @@ const handleSubmit=(e: FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
     console.log(inputs);
     
+    updateProduct(dispatch,id,inputs)
+    
 }
+
+useEffect(()=>{
+    const getInfos=async()=>{
+            const res=await userRequest.get(`/order/income?pid=${id}`)
+            const date=new Date();
+            const month1=date.getMonth()+1;
+            const month2=date.getMonth();
+            const month3=date.getMonth()-1;
+            res.data.map((d:any)=>{
+                
+                console.log(d._id,month1,month2,month3);
+                
+                if(d._id==month3){
+                   const newData=chart;
+                   newData[0].sale=d.total;
+                   setChart([...newData])
+                }
+                if(d._id==month2){
+                    const newData=chart;
+                    newData[1].sale=d.total;
+                    setChart([...newData])
+                 }
+                 if(d._id==month1){
+                    const newData=chart;
+                    newData[2].sale=d.total;
+                    setChart([...newData])
+                    
+                 }
+            })
+            
+    }
+    getInfos()
+}
+,[])
     return<ProductWrapper>
         <div className="top">
             <div className="left">
-             <Chart data={productData} title='Last 3 Months Sales :' dataKey="sale" aspect={3/1} margin={0}/>   
+             <Chart data={chart} title='Last 3 Months Sales :' dataKey="sale" aspect={3/1} margin={0}/>   
             </div>
             <div className="right">
                 <div className="row">
-                    <img src="https://cdn.pixabay.com/photo/2018/06/04/00/29/women-3452067__340.jpg" alt="" />
-                    <span className="name"> Iphone</span>
+                    <img src={data.image} alt="" />
+                    <span className="name"> {data.name}</span>
                 </div>
                 <div className="row">
                     <span className="title">id</span>
-                    <span className="value">1</span>
+                    <span className="value">{data.id}</span>
                 </div>
                 <div className="row">
-                    <span className="title">sales</span>
-                    <span className="value">764</span>
-                </div>
-                <div className="row">
-                    <span className="title">active</span>
-                    <span className="value">true</span>
+                    <span className="title">price</span>
+                    <span className="value">{data.sales}</span>
                 </div>
                 <div className="row">
                     <span className="title">inStock</span>
-                    <span className="value">56</span>
+                    <span className="value">{data.inStock?'Yes':'No'}</span>
                 </div>
                 
             </div>
@@ -78,25 +153,27 @@ const handleSubmit=(e: FormEvent<HTMLFormElement>)=>{
         <form className="bottom" onSubmit={handleSubmit}>
             
                 <div className="input">
-                    <label htmlFor="name">Product Name</label>
-                    <input type="text" id="name" onChange={handleChange}/>
+                    <label htmlFor="title">Product Name</label>
+                    <input type="text" id="title" onChange={handleChange}/>
                 </div>
                 <div className="input">
-                    <label htmlFor="instock">inStock</label>
-                    <select  id="instock" onChange={handleChange2}>
+                    <label htmlFor="descripyion">Description</label>
+                    <input type="text" id="description" onChange={handleChange}/>
+                </div>
+                <div className="input">
+                    <label htmlFor="price">Price $</label>
+                    <input type="number" id="price" onChange={handleChange}/>
+                </div>
+                <div className="input">
+                    <label htmlFor="inStock">inStock</label>
+                    <select  id="inStock" onChange={handleChange2}>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
                     </select>
                 </div>
-                <div className="input">
-                    <label htmlFor="actice">Active</label>
-                    <select  id="active" onChange={handleChange2}>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
+                
                 <div className="image">
-            <img src={inputs.file?inputs.file:"https://cdn.pixabay.com/photo/2016/02/03/18/12/song-of-ice-and-fire-1177616__340.jpg"} alt="" />
+            <img src={inputs.url?inputs.url:data.image} alt="" />
              <label htmlFor="file"><FileUploadOutlinedIcon/></label> 
              <input type="file" id="file" onChange={handleChange} accept="image/png, image/gif, image/jpeg" />
                <button type="submit">Submit</button>

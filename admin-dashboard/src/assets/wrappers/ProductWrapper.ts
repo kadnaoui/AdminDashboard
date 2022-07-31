@@ -59,8 +59,8 @@ align-items: center;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    div{
-        height: 30%;
+    .input{
+        height: 20%;
         width: 50%;
         display: flex;
         flex-direction: column;

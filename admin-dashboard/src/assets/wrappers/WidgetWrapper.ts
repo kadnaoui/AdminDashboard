@@ -82,9 +82,17 @@ justify-content: space-evenly;
         }
     }
     .status{
-        background-color: rgb(255,0,0,0.3);
         border-radius: 0.5vw;
         padding:0.2vw 0.5vw;
+    }
+    .declined{      
+        background-color: rgb(255,0,0,0.3);
+    }
+    .pending{      
+        background-color: rgb(0,0,255,0.3);
+    }
+    .approved{      
+        background-color: rgb(0,255,0,0.3);
     }
 }
 `

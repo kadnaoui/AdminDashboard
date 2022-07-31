@@ -1,34 +1,24 @@
 import { FC } from 'react';
-import { TopBar } from './components/topbar';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { HomeWrapper } from './assets/wrappers/HomeWrapper';
-import { SideBar } from './components/sideBar'
-import { Main } from './Pages/Main';
-import { Users } from './Pages/Users';
-import { EditUser } from './Pages/EditUser';
-import { Createuser } from './Pages/CreateUser';
-import { Products } from './Pages/Products';
-import { Product } from './Pages/Product';
-import { CreateProduct } from './Pages/CreateProduct';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Login } from './Pages/Login';
+import Routess from './routes';
+import { userState } from "./redux/userRedux";
+import {useSelector} from 'react-redux'
+
 const App: FC = (): JSX.Element => {
+  const user = useSelector((state:userState) => state);
+  
+  
+
 
   return (
     
       <BrowserRouter>
-        <TopBar />
-        <HomeWrapper>
-        <SideBar />
+
         <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/users' element={<Users />} />
-          <Route path='/create-user' element={<Createuser />} />
-          <Route path='/users/:id' element={<EditUser />} />
-          <Route path='/products' element={<Products />} />
-          <Route path='/products/:id' element={<Product />} />
-          <Route path='/create-product' element={<CreateProduct />} />
+          <Route path='*' element={user?.user?.isAdmin?<Routess />:<Navigate to='/login'/>} />
+          <Route path='/login' element={user?.user?.isAdmin?<Navigate to='/'/>:<Login/>} />
         </Routes>
-        
-    </HomeWrapper>
       </BrowserRouter>
   );
 }

@@ -1,27 +1,40 @@
-import { FC ,useState} from "react";
+import { FC ,useEffect,useState} from "react";
 import { ProductsWrapper } from "../assets/wrappers/ProductsWrapper";
 import { productRows } from "../Data";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Link } from "react-router-dom";
-
-
+import { useDispatch,useSelector } from "react-redux";
+import { deleteProduct, getProduct } from "../redux/apiCalls";
+import { productState } from "../redux/productRedux";
 export const Products:FC=():JSX.Element=>{
-    const [data,setData]=useState(productRows);
+    const {product} = useSelector((state:{product:productState}) => state.product);
+    const [data,setData]=useState<any[]>([]);
+    
+    const dispatch=useDispatch();
+    useEffect(()=>{
+      getProduct(dispatch)
+    },[dispatch])
+    useEffect(()=>{
+      const newData=product.map(p=>{
+        const obj={ id: p._id, name: p.title,avatar:p.image.data.data,stock:p.inStock,price:p.price}
+        return obj;
+      })
+      setData(newData)
+    },[product])
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'product', headerName: 'Product', width: 200,renderCell:(params: GridValueGetterParams):JSX.Element =>(<div className='user'>
+    { field: 'id', headerName: 'ID', width: 220 },
+    { field: 'product', headerName: 'Product', width: 220,renderCell:(params: GridValueGetterParams):JSX.Element =>(<div className='user'>
         <img src={params.row.avatar} alt="" />
         <span>{params.row.name}</span>
     </div> )},
-    { field: 'stock', headerName: 'Stock', width: 200 },
-    { field: 'status', headerName: 'Status', width: 150 },
+    { field: 'stock', headerName: 'Stock', width: 100 },
     {
       field: 'price',
       headerName: 'Price ($)',
       type: 'number',
-      width: 180,
+      width: 100,
     },  {
       field: 'action',
       headerName: 'Action ',
@@ -30,7 +43,7 @@ const columns: GridColDef[] = [
         <Link to={`/products/${params.row.id}`}>
 <EditOutlinedIcon className='edit'/>
 </Link>
-<DeleteOutlineOutlinedIcon className='delete'/>
+<DeleteOutlineOutlinedIcon className='delete' onClick={()=>deleteProduct(dispatch,params.row.id)}/>
     </div> )
     }
   ];
