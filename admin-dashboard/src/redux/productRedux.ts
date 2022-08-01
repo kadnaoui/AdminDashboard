@@ -58,13 +58,29 @@ const productSlice=createSlice({
         updateProductSuccess:(state,action:PayloadAction<{id:string,data:any}>)=>{
 
           state.isFetching=false;
+        
+          
          state.product=state.product.map(p=>{
           
          
           if(p._id==action.payload.id){ 
-            if (action.payload.data.title||action.payload.data.description||action.payload.data.price||action.payload.data.inStock) {
-              let r={...current(p),
-                inStock:action.payload.data.inStock
+            
+            if (action.payload.data.title||action.payload.data.description||action.payload.data.price||action.payload.data.inStock!=null||action.payload.data.url) {
+              let r={...current(p)}
+              if (action.payload.data.inStock!=null) {
+                r={...current(p),
+                  inStock:action.payload.data.inStock
+                }
+                
+              }
+              
+              if (action.payload.data.url) {
+                r= {
+                  ...r,
+                  image:{...r.image,
+                    data:{...r.image,
+                      data:action.payload.data.url}}
+                }
               }
               
               if (action.payload.data.title) {
@@ -97,7 +113,6 @@ const productSlice=createSlice({
           }
           else return p
          })
-         console.log(state.product);
          
         },
         updateProductFailure:(state)=>{

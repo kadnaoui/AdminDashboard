@@ -29,10 +29,13 @@ export const Product:FC=():JSX.Element=>{
     const [data,setData]=useState({
         name:'',
         sales:0,
-        active:false,
-        inStock:false,
+        inStock:null,
         id:'',
-        image:''
+        image:'',
+        description:'',
+        size:[],
+        color:[],
+        categories:[]
     })
     const [inputs,setInputs]=useState({
         title:'',
@@ -40,17 +43,23 @@ export const Product:FC=():JSX.Element=>{
         price:'',
         file:{},
         url:'',
-        inStock:true
+        inStock:true,
+        size:[],
+        color:[],
+        categories:[]
     })
     useEffect(()=>{
       const x=product.find(p=>p._id==id);
       setData({
         name:x.title,
         sales:x.price,
-        active:x.inStock,
         inStock:x.inStock,
         id:x._id,
-        image:x.image.data.data
+        image:x.image.data.data,
+        description:x.description,
+        color:x.color,
+        size:x.size,
+        categories:x.categories
     })
         
     },[product])
@@ -59,10 +68,19 @@ export const Product:FC=():JSX.Element=>{
         const id=e.target.id;
         const value=e.target.value;
        if(id!='file'){
-        setInputs({
+        if (id=='size'||id=='color'||id=='categories') {
+            setInputs({
+                ...inputs,
+                [id]:value.split(' ').filter(v=>v!='')
+            })
+        }
+        else{
+            setInputs({
             ...inputs,
             [id]:value
         })
+    }
+        
     }
         else{   if (e.target.files && e.target.files[0]) {
               
@@ -75,19 +93,39 @@ export const Product:FC=():JSX.Element=>{
         }
     }
     }
-    const handleChange2=(e: ChangeEvent<HTMLSelectElement>)=>{
+    const handleChange2=(e: ChangeEvent<HTMLSelectElement|HTMLTextAreaElement>)=>{
         const {id,value}=e.target;
+        if (id=='description') {
+            setInputs({
+                ...inputs,
+                [id]:value.trim()
+            })
+    
+        }
+       else{
         setInputs({
             ...inputs,
             [id]:value=='yes'
         })
+       } 
 
 }
 const handleSubmit=(e: FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
+
     console.log(inputs);
     
-    updateProduct(dispatch,id,inputs)
+     updateProduct(dispatch,id,{
+         title:inputs.title?inputs.title:data.name,
+        description:inputs.description?inputs.description:data.description,
+        price:inputs.price?inputs.price:data.sales,
+        file:inputs.file?inputs.file:data.image,
+        url:inputs.url?inputs.url:'',
+        inStock:inputs.inStock,
+        size:inputs.size.length>0?inputs.size:data.size,
+        color:inputs.color.length>0?inputs.color:data.color,
+        categories:inputs.categories.length>0?inputs.categories:data.categories
+    },setInputs)
     
 }
 
@@ -95,12 +133,10 @@ useEffect(()=>{
     const getInfos=async()=>{
             const res=await userRequest.get(`/order/income?pid=${id}`)
             const date=new Date();
-            const month1=date.getMonth()+1;
-            const month2=date.getMonth();
-            const month3=date.getMonth()-1;
+            const month1=date.getMonth();
+            const month2=date.getMonth()-1;
+            const month3=date.getMonth()-2;
             res.data.map((d:any)=>{
-                
-                console.log(d._id,month1,month2,month3);
                 
                 if(d._id==month3){
                    const newData=chart;
@@ -156,13 +192,25 @@ useEffect(()=>{
                     <label htmlFor="title">Product Name</label>
                     <input type="text" id="title" onChange={handleChange}/>
                 </div>
-                <div className="input">
+                <div className="textarea">
                     <label htmlFor="descripyion">Description</label>
-                    <input type="text" id="description" onChange={handleChange}/>
+                    <textarea  id="description" rows={30} onChange={handleChange2}/>
                 </div>
                 <div className="input">
-                    <label htmlFor="price">Price $</label>
-                    <input type="number" id="price" onChange={handleChange}/>
+                    <label htmlFor="price">Price</label>
+                    <input type="number" id="price" min={0} onChange={handleChange}/>
+                </div>
+                <div className="input">
+                    <label htmlFor="size">Size</label>
+                    <input type="text"  id="size" onChange={handleChange}/>
+                </div>
+                <div className="input">
+                    <label htmlFor="color">Color</label>
+                    <input type="text"  id="color" onChange={handleChange}/>
+                </div>
+                <div className="input">
+                    <label htmlFor="categories">Categories</label>
+                    <input type="text"  id="categories"onChange={handleChange} />
                 </div>
                 <div className="input">
                     <label htmlFor="inStock">inStock</label>

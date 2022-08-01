@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const ProductWrapper=styled.section`
 width: 89%;
-height: 85vh;
 padding:1vw 2vw;
 font-family: "Quicksand";
 display: flex;
@@ -53,14 +52,15 @@ align-items: center;
     }
 }
 .bottom{
+    margin-top: 2vw;
     width: 100%;
-    height: 40vh;
+    height: 100vh;
     box-shadow: 0px 0px 4px 0 #555;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    .input{
-        height: 20%;
+    .input,.textarea{
+        height: 10vh;
         width: 50%;
         display: flex;
         flex-direction: column;
@@ -69,12 +69,19 @@ align-items: center;
             font-size: 1.5vw;
             margin-bottom: 0.5vw;
         }
-        input,select{
+        input,select,textarea{
             height: 1.8vw;
             padding-inline: 1vw;
             font-size: 1.3vw;
             width: 70%;
         }
+        textarea{
+            resize: none;
+            height: 100%;
+        }
+    }
+    .textarea{
+        height:30%;
     }
 
     .image{
@@ -83,7 +90,7 @@ align-items: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-evenly;
         img{
             width: 15vw;
             max-width: 9vw;

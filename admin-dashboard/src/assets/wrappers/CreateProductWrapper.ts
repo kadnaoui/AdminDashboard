@@ -17,15 +17,15 @@ h1{
 }
 form{
     width: 90%;
-    height: 80vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     img{
         width:50%
     }
-    .input,.input2{
-        height:17vh;
+    .input,.input2,.textarea{
+        height:10vh;
         width: 50%;
         display: flex;
         flex-direction: column;
@@ -33,11 +33,15 @@ form{
             font-size: 1.5vw;
             margin-bottom: 1vw;
         }
-        input,select{
+        input,select,textarea{
             width: 80%;
-            height: 30%;
+            height: 5vh;
             font-size: 1.3vw;
             padding-inline: 1vw;
+        }
+        textarea{
+            resize: none;
+            height: 100%;
         }
         input[type='file']{
             display: none;
@@ -46,9 +50,13 @@ form{
             font-size: 5vw;
         }
     }
+    .textarea{
+        height: 30vh;
+    }
     .input2{
+        margin-block: 2vw;
         label{
-            padding: 0.5vw 1vw;
+            padding: 1vw 2vw;
             height: 40%;
             width: fit-content;
             display: flex;
