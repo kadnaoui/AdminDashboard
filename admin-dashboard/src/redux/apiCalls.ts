@@ -15,9 +15,16 @@ export const login = async(dispatch:Function,user:{username:string,password:stri
     dispatch(LoginStart());
     try {
         const res=await publicRequest.post('/auth/login',user);
-        dispatch(LoginSuccess({user:res.data}));
+       
+        
+        res.data.isAdmin&&dispatch(LoginSuccess({user:res.data}));
+        !res.data.isAdmin&&toast.error('you are not an admin')
+        res.data.isAdmin&&toast.success('loged in')
+
     } catch (error) {
         dispatch(LoginFailure())
+       toast.error('something went wrong')
+        
     }
 
 }
@@ -26,6 +33,9 @@ export const getProduct = async(dispatch:Function)=>{
     dispatch(getProductStart());
     try {
         const res=await publicRequest.get('/product/find');
+        
+        console.log(res.data);
+        
         let base64String:any;
       
       const data= res.data.map((d:any)=>{
@@ -70,7 +80,6 @@ export const deleteProduct = async(dispatch:Function,id:string)=>{
 
 export const updateProduct = async(dispatch:Function,id:any,data:any,setInputs:Function)=>{
     dispatch(updateProductStart());
-    console.log(data.file)
     try {
         const form = new FormData();
         form.append('title', data.title)
@@ -149,4 +158,71 @@ export const createProduct = async(data:any,setInputs:Function)=>{
         
     }
 
+}
+//delete user
+export const deleteUser=async(id:string)=>{
+    try {
+        const res=await userRequest.delete(`/users/${id}`);
+        toast.success(`user width id of ${id} deleted succesfully`)
+    } catch (error) {
+        toast.error('something went wrong')
+    }
+   
+}
+//create User
+export const createUser=async(data:any,setInputs:Function)=>{
+    try {
+        
+        const res=await publicRequest.post(`/auth/register`,data);
+        setInputs({
+            username:'',
+            fullname:'',
+            email:'',
+            phone:'',
+            adress:'',
+            gender:'',
+            password:'',
+            active:false
+        })
+        toast.success(`${data.username} acount was created succsefully`)
+    } catch (error) {
+        toast.error('something went wrong');
+        console.log(error);
+        
+    }
+}
+//get User
+export const getUser=async(id:string|undefined,setInfos:Function)=>{
+    try {
+        const res=await userRequest.get(`/users/find/${id}`);
+        setInfos({
+            username:res.data.username,
+            fullname:res.data.fullname,
+            email:res.data.email,
+            phone:res.data.phone,
+            adress:res.data.adress,
+            active:res.data.active
+        })
+    } catch (error) {
+        toast.error('something went wrong');
+    }
+   
+}
+//update user
+export const updateUser=async(id:string|undefined,setInfos:Function,data:any)=>{
+    try {
+        const res=await userRequest.patch(`/users/${id}`,data)
+        setInfos({
+            username:'',
+            fullname:'',
+            email:'',
+            phone:'',
+            adress:'',
+            active:false
+        })
+        toast.success('User updated');
+    } catch (error) {
+        toast.error('something went wrong');
+    }
+   
 }

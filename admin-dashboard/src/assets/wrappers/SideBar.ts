@@ -7,11 +7,12 @@ box-shadow:0 3px 5px 0 #555;
 display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: space-evenly;
+justify-content: flex-start;
 font-family: "Heebo";
 position: sticky;
 top: 10vh;
 .group{
+    margin-top: 4vh;
     width: 100%;
     display: flex;
     flex-direction: column;

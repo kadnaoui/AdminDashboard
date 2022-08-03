@@ -11,6 +11,8 @@ interface Props{
 }
 
 export const Chart :FC<Props>=({data,title,dataKey,aspect,margin}):JSX.Element=>{
+  console.log(data);
+  
     return<ChartWrapper margin={margin}>
         <h1>{title}</h1>
         <ResponsiveContainer width="100%" aspect={aspect}>

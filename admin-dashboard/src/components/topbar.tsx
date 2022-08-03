@@ -1,24 +1,21 @@
 import { FC } from "react";
 import { TopBarWrapper } from "../assets/wrappers/TopBar";
 import Badge from '@mui/material/Badge';
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import { useDispatch,useSelector } from "react-redux";
+import { Logout } from "../redux/userRedux";
 export const TopBar:FC=():JSX.Element=>{
+    const dispatch=useDispatch();
+    const user = useSelector((state:{user:any}) => state.user);
+    console.log(user);
+    
     return(
         <TopBarWrapper>
             <div className="title">
-                Abderrahim
+                Admin
             </div>
             <div className="commands">
-                <Badge badgeContent={4} color="primary">
-                    <NotificationsNoneOutlinedIcon color="action" />
-                </Badge>
-                <Badge badgeContent={4} color="primary">
-                    <LanguageOutlinedIcon color="action" />
-                </Badge>
-                <SettingsOutlinedIcon color="action" />
-                <img src="https://cdn.pixabay.com/photo/2022/04/24/16/52/animal-7154059_960_720.jpg" alt="" />
+                    <LoginOutlinedIcon color="action" onClick={()=>dispatch(Logout())}/>
             </div>
         </TopBarWrapper>
     )

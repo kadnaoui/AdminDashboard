@@ -1,14 +1,17 @@
 import {FC,ChangeEvent,useState,FormEvent} from 'react';
+import { toast } from 'react-toastify';
 import { CreateUserWrapper } from '../assets/wrappers/CreateUserWrapper';
+import { createUser } from '../redux/apiCalls';
 
 export const Createuser:FC=():JSX.Element=>{
     const [inputs,setInputs]=useState({
-        userName:'',
-        fullName:'',
+        username:'',
+        fullname:'',
         email:'',
         phone:'',
         adress:'',
         gender:'',
+        password:'',
         active:false
     })
     const handleChange=(e: ChangeEvent<HTMLInputElement>)=>{
@@ -34,7 +37,26 @@ export const Createuser:FC=():JSX.Element=>{
     }
     const handleSubmit=(e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        console.log(inputs);
+ if (inputs.adress && inputs.email&& inputs.fullname && inputs.gender&& inputs.password && inputs.username) {
+   try {
+    createUser({
+        username:inputs.username,
+        fullname:inputs.fullname,
+        email:inputs.email,
+        phone:inputs.phone?inputs.phone:null,
+        adress:inputs.adress,
+        gender:inputs.gender,
+        password:inputs.password,
+        active:false
+    },setInputs);
+  
+   } catch (error) {
+    console.log(error);
+    
+   } 
+ }
+ else toast.error('please fill all fields')
+       
         
     }
 
@@ -43,15 +65,15 @@ export const Createuser:FC=():JSX.Element=>{
         <form onSubmit={handleSubmit}>
             <div className="input">
             <label htmlFor="username">Username</label>
-            <input onChange={handleChange} type="text" id='username'/>
+            <input onChange={handleChange} type="text" value={inputs.username} id='username'/>
             </div>
             <div className="input">
             <label htmlFor="email">Email</label>
-            <input onChange={handleChange} type="email" id='email'/>
+            <input onChange={handleChange} type="email" value={inputs.email}  id='email'/>
             </div>
             <div className="input">
             <label htmlFor="phone">Phone</label>
-            <input onChange={handleChange} type="text" id='phone'/>
+            <input onChange={handleChange} type="text" value={inputs.phone}  id='phone'/>
             </div>
             <div className="input checkbox">
             <span>Gender</span>
@@ -65,15 +87,15 @@ export const Createuser:FC=():JSX.Element=>{
             <button>Create</button>
             <div className="input">
             <label htmlFor="fullname">Full Name</label>
-            <input onChange={handleChange} type="text" id='fullname'/>
+            <input onChange={handleChange} type="text" value={inputs.fullname} id='fullname'/>
             </div>
             <div className="input">
             <label htmlFor="password">Password</label>
-            <input onChange={handleChange} type="password" id='password'/>
+            <input onChange={handleChange} type="password" id='password' value={inputs.password} />
             </div>
             <div className="input">
             <label htmlFor="adress">Adress</label>
-            <input onChange={handleChange} type="text" id='adress'/>
+            <input onChange={handleChange} type="text" id='adress' value={inputs.adress} />
             </div> 
             <div className="input">
             <label htmlFor="active">Active</label>

@@ -13,36 +13,27 @@ box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 background-color: #fff;
 z-index: 9999;
 .title{
-    width: 30%;
+    width: 20%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5vw;
+    font-size: 4vh;
     color: #2c2dff;
     font-weight: 700;
 }
 .commands{
-    width:30%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    font-size: 2.5vw;
-    color: #2c2dff;
-    font-weight: 700;
+    width: 20%;
+    text-align: center;
     svg{
-        cursor: pointer;
+        padding-top: 1vh;
+        font-size: 4vh;
         transition: all 0.3s ease;
-        &:hover{
-            color: #000;
-        }
-    }
-    img{
-        width: 4vw;
-        height: 4vw;
-        border-radius: 50%;
         cursor: pointer;
+        &:hover{
+            color:black;
+            transform: scale(1.2);
+        }
     }
 }
 `

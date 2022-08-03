@@ -21,21 +21,24 @@ const userSlice=createSlice({
       LoginStart:(state)=>{
         state.isFetching=true;      
         state.error=false;
-        console.log(1);
         
       },
       LoginSuccess:(state,action:PayloadAction<{user:{accessToken:string,email:string,isAdmin:Boolean,username:string,_id:string}}>)=>{
         state.isFetching=false;
         state.user=action.payload.user;
-        console.log(state.user);
         
        
       },
       LoginFailure:(state)=>{
         state.isFetching=false;
         state.error=true;
+      },Logout:(state)=>{
+        state.isFetching=false;
+        state.user=null;
+        console.log(state.user);
+        
       }
     }
 })
-export const {LoginStart,LoginSuccess,LoginFailure}=userSlice.actions;
+export const {LoginStart,LoginSuccess,LoginFailure,Logout}=userSlice.actions;
 export default userSlice;

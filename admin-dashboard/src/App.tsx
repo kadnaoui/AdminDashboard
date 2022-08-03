@@ -8,9 +8,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App: FC = (): JSX.Element => {
-  const user = useSelector((state:userState) => state);
+  const {user} = useSelector((state:any) => state.user);
   
-  
+
+console.log(user);
 
 
   return (
@@ -18,8 +19,8 @@ const App: FC = (): JSX.Element => {
       <BrowserRouter>
 
         <Routes>
-          <Route path='*' element={user?.user?.isAdmin?<Routess />:<Navigate to='/login'/>} />
-          <Route path='/login' element={user?.user?.isAdmin?<Navigate to='/'/>:<Login/>} />
+          <Route path='*' element={user?.isAdmin?<Routess />:<Navigate to='/login'/>} />
+          <Route path='/login' element={user?.isAdmin?<Navigate to='/'/>:<Login/>} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>

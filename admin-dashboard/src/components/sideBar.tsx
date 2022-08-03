@@ -20,7 +20,8 @@ export const SideBar :FC=():JSX.Element=>{
     useEffect(()=>{
         setSelected(location?.pathname)
     }
-    ,[])
+    ,[location?.pathname])
+    
     return(<SideBarWrapper>
         <div className="group">
             <span className="title">Dashboard</span>
@@ -31,75 +32,20 @@ export const SideBar :FC=():JSX.Element=>{
                     <HomeOutlinedIcon/> Home   
                     </Link>
                 </li>
-                <li>
-                <Link to='/'>
-                    <TimelineOutlinedIcon/> Analytics 
-                    </Link>  
-                </li>       
-                         <li>
-                            <Link to='/'><TrendingUpOutlinedIcon/> Sales  </Link>
-                     
-                </li>
-            </ul>
-        </div>
-        <div className="group">
-            <span className="title">Quick Menu</span>
-            <ul>
                 <li className={selected=='/users'? 'selected':''}>
                 <Link to='/users'>
 
                     <PeopleOutlineOutlinedIcon/> Users   
                 </Link>
                 </li>
-                <li>
+                <li className={selected=='/products'? 'selected':''}>
                 <Link to='/products'> <StorefrontOutlinedIcon/> Products </Link>
                      
-                </li>                
-                <li>
-                <Link to='/'> <MonetizationOnOutlinedIcon/> Transaction   </Link>
-                   
-                </li>
-                <li>
-                <Link to='/'><LeaderboardOutlinedIcon/> Reports  </Link>
-                     
-                </li>
+                </li>   
+               
             </ul>
         </div>
-        <div className="group">
-            <span className="title">Notifications</span>
-            <ul>
-                <li className={selected=='/notifications'? 'selected':''}>
-                <Link to='/'><EmailOutlinedIcon/> Mail</Link>
-                       
-                </li>
-                <li>
-                <Link to='/'><ThreePOutlinedIcon/> FeedBack   </Link>
-                    
-                </li>                
-                <li>
-                <Link to='/'><ForumOutlinedIcon/> Messages </Link>
-                      
-                </li>
-            </ul>
-        </div>
-        <div className="group">
-            <span className="title">Staff</span>
-            <ul>
-                <li className={selected=='/staff'? 'selected':''}>
-                    <Link to='/staff'>
-                    <WorkOutlineOutlinedIcon/> Manage   
-                    </Link>
-                </li>
-                <li>
-                <Link to='/'><TimelineOutlinedIcon/> Analytics</Link>
-                       
-                </li>                
-                <li>
-                <Link to='/'><ReportGmailerrorredOutlinedIcon/> Reports  </Link>
-                     
-                </li>
-            </ul>
-        </div>
+        
         </SideBarWrapper>)
     
 }

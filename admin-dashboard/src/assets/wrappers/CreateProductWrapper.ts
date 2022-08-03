@@ -22,7 +22,9 @@ form{
     flex-direction: column;
     flex-wrap: wrap;
     img{
-        width:50%
+        max-width:50%;
+        max-height:50vh;
+        object-fit: cover;
     }
     .input,.input2,.textarea{
         height:10vh;

@@ -10,6 +10,9 @@ import { deleteProduct, getProduct } from "../redux/apiCalls";
 import { productState } from "../redux/productRedux";
 export const Products:FC=():JSX.Element=>{
     const {product} = useSelector((state:{product:productState}) => state.product);
+    const x = useSelector((state) => state);
+
+    
     const [data,setData]=useState<any[]>([]);
     
     const dispatch=useDispatch();
