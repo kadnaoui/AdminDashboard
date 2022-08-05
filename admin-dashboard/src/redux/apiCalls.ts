@@ -226,3 +226,42 @@ export const updateUser=async(id:string|undefined,setInfos:Function,data:any)=>{
     }
    
 }
+//Get anouncements
+export const getAnouncement=async(setAnouncement:Function)=>{
+    try {
+        const res=await userRequest.get(`/anouncement`)
+       const data= res.data.map((d:any)=>{return{anounecement:d.anounecement,id:d._id}})
+        setAnouncement(data)
+    } catch (error) {
+        toast.error('something went wrong');
+    }
+   
+}
+export const updateAnouncement=async(data:any,id:string,setInput:Function)=>{
+    try {
+        const res=await userRequest.patch(`/anouncement/${id}`,data)
+        setInput('')
+    } catch (error) {
+        toast.error('something went wrong');
+    }
+   
+}
+export const createAnouncement=async(data:any,setInput:Function)=>{
+    try {
+        const res=await userRequest.post(`/anouncement`,data)
+        setInput('')
+    } catch (error) {
+        toast.error('something went wrong');
+        console.log(error);
+        
+    }
+   
+}
+export const deleteAnouncement=async(id:string)=>{
+    try {
+        const res=await userRequest.delete(`/anouncement/${id}`)
+    } catch (error) {
+        toast.error('something went wrong');
+    }
+   
+}

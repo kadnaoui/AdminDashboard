@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl='http://localhost:5000';
+const baseUrl='https://ecommerce-abderrahim.herokuapp.com/';
 
 
 const Token=localStorage.length>0?JSON.parse(JSON.parse(localStorage?.getItem('persist:root')||'{}')?.user)?.user?.accessToken:' ';

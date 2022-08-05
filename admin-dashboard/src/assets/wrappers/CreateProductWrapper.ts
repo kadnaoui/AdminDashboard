@@ -34,6 +34,7 @@ form{
         label,span{
             font-size: 1.5vw;
             margin-bottom: 1vw;
+            
         }
         input,select,textarea{
             width: 80%;

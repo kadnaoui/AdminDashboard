@@ -15,13 +15,13 @@ h1{
     padding-left: 2vw;
     align-self: flex-start;
 }
-form{
+form,.form{
     width: 90%;
     height: 80vh;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    .input{
+    .input,.input2{
         height:17vh;
         width: 50%;
         display: flex;
@@ -29,6 +29,15 @@ form{
         label,span{
             font-size: 1.5vw;
             margin-bottom: 1vw;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+        svg{
+                margin-inline: 1vw;
+                cursor: pointer;
+            }
         }
         input,select{
             width: 80%;
@@ -36,6 +45,12 @@ form{
             font-size: 1.3vw;
             padding-inline: 1vw;
         }
+        .hidden{
+            display: none;
+        }
+    }
+    .input2{
+        height: 25vh;
     }
     .checkbox{
         display: flex;

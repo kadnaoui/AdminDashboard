@@ -11,6 +11,7 @@ import { Products } from './Pages/Products';
 import { Product } from './Pages/Product';
 import { CreateProduct } from './Pages/CreateProduct'
 import { Login } from './Pages/Login';
+import { Anouncement } from './Pages/Anouncements';
 const Routess: FC = (): JSX.Element => {
 
   return (
@@ -27,6 +28,7 @@ const Routess: FC = (): JSX.Element => {
           <Route path='/products' element={<Products />} />
           <Route path='/products/:id' element={<Product />} />
           <Route path='/create-product' element={<CreateProduct />} />
+          <Route path='/anouncement' element={<Anouncement />} />
         </Routes>
         
     </HomeWrapper>
